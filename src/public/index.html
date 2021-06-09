@@ -6,19 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RSS agregator</title>
   </head>
-  <body>
-    <div class="container mt-5">
-      <div class="col-md-4 offset-md-4">
-        <form class="">
-          <input
-            class="form-control mb-3"
-            type="text"
-            placeholder="stream"
-            aria-label="stream input"
-          />
-          <button class="btn btn-success" type="submit">Add</button>
-        </form>
+  <body class="d-flex flex-column min-vh-100">
+    <section class="container-fluid bg-light bg-gradient p-5">
+      <div class="row">
+        <div class="col-md-10 col-lg-8 mx-auto text-secondary">
+          <h1 class="mb-2">RSS агрегатор</h1>
+          <p class="fs-5">Собирайте статьи с любимых порталов в одном месте</p>
+          <form class="rss_form" name="rssForm">
+            <div class="row">
+              <div class="col-9">
+                <input
+                  class="form-control form-control-lg mb-3"
+                  name="rssUrl"
+                  type="text"
+                  placeholder="rss ссылка"
+                  aria-label="rss_input"
+                  autofocus
+                  required
+                />
+              </div>
+              <div class="col">
+                <button class="btn btn-outline-secondary btn-lg px-sm-4 fw-bold" type="submit">
+                  Добавить
+                </button>
+              </div>
+            </div>
+          </form>
+          <p class=" mb-1 fw-lighter">Пример: https://ru.hexlet.io/lessons.rss</p>
+          <p class=" mb-1 feedback position-absolute fst-italic"></p>
+        </div>
       </div>
-    </div>
+    </section>
+    <section class="container-fluid container-xxl p-5">
+      <div class="row">  
+        <div class="col-md-10 col-lg-8 mx-auto posts"></div>
+        <div class="col-md-10 col-lg-4 mx-auto feeds"></div>
+      </div>
+    </section>
   </body>
 </html>
