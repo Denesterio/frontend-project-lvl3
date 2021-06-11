@@ -2,11 +2,10 @@ import * as yup from 'yup';
 import onChange from 'on-change';
 import axios from 'axios';
 import i18next from 'i18next';
+import _ from 'lodash';
 import resources from '../locales';
-import renderError from './renderErrors.js';
-import processHandler from './processHandler.js';
 import rssParse from './rssParser.js';
-import { renderList, getTitle } from './renderContent.js';
+import view from './view.js';
 
 const schema = yup.string().url();
 
@@ -30,26 +29,15 @@ export default () => {
     feeds: [],
     posts: [],
     streams: [],
+    updateList: {
+      // 'waiting', 'finished, 'failed', 'sending'
+      state: 'waiting',
+    },
   };
 
   const form = document.querySelector('.rss_form');
-  const containers = {
-    feeds: document.querySelector('.feeds'),
-    posts: document.querySelector('.posts'),
-  };
-
   const stateWatcher = onChange(state, (path, value) => {
-    if (path === 'rssForm.errors' && value.length > 0) {
-      renderError(value, form, i18nInstance);
-    } else if (path === 'rssForm.state') {
-      processHandler(value, i18nInstance);
-    } else if (path === 'feeds' || path === 'posts') {
-      containers[path].innerHTML = '';
-      const title = getTitle(path, i18nInstance);
-      const list = renderList(path, value);
-      containers[path].append(title);
-      containers[path].append(list);
-    }
+    view(path, value, i18nInstance, form);
   });
 
   form.addEventListener('submit', (event) => {
@@ -58,7 +46,7 @@ export default () => {
 
     const formData = new FormData(event.target);
     const url = formData.get('rssUrl');
-    const duplicate = stateWatcher.streams.find((stream) => stream === url);
+    const duplicate = stateWatcher.feeds.find((feed) => feed.stream === url);
     if (duplicate) {
       stateWatcher.rssForm.errors.push({ name: 'DuplicateError' });
       stateWatcher.rssForm.state = 'failed';
@@ -80,7 +68,7 @@ export default () => {
       .then(({ data }) => {
         const id = stateWatcher.feeds.length + 1;
         try {
-          const [feed, post] = rssParse(data.contents, id);
+          const [feed, post] = rssParse(data.contents, id, url);
           stateWatcher.feeds = [feed, ...stateWatcher.feeds];
           stateWatcher.posts = [post, ...stateWatcher.posts];
         } catch (error) {
@@ -96,5 +84,24 @@ export default () => {
         stateWatcher.rssForm.errors.push({ name: 'ConnectionError' });
         stateWatcher.rssForm.state = 'failed';
       });
+
+    setTimeout(function updateList() {
+      const feed = stateWatcher.feeds[0];
+      const currentUri = encodeURIComponent(feed.stream);
+      axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${currentUri}`).then(({ data }) => {
+        try {
+          const [, newPost] = rssParse(data.contents, feed.id);
+          const currentPost = stateWatcher.posts.find((p) => p.id === feed.id);
+          if (!_.isEqual(currentPost.posts, newPost.posts)) {
+            const nonChanged = _.without(stateWatcher.posts, currentPost);
+            stateWatcher.posts = [newPost, ...nonChanged];
+          }
+          setTimeout(updateList, 5000, stateWatcher);
+        } catch (error) {
+          stateWatcher.updateList.state = 'failed';
+          setTimeout(updateList, 5000, stateWatcher);
+        }
+      });
+    }, 5000);
   });
 };

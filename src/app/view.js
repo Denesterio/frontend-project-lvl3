@@ -1,0 +1,22 @@
+import renderError from './renderErrors.js';
+import processHandler from './processHandler.js';
+import { renderList, getTitle } from './renderContent.js';
+
+export default (path, value, i18Inst, form) => {
+  const containers = {
+    feeds: document.querySelector('.feeds'),
+    posts: document.querySelector('.posts'),
+  };
+
+  if (path === 'rssForm.errors' && value.length > 0) {
+    renderError(value, form, i18Inst);
+  } else if (path === 'rssForm.state') {
+    processHandler(value, i18Inst);
+  } else if (path === 'feeds' || path === 'posts') {
+    containers[path].innerHTML = '';
+    const title = getTitle(path, i18Inst);
+    const list = renderList(path, value);
+    containers[path].append(title);
+    containers[path].append(list);
+  }
+};

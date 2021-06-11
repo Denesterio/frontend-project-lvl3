@@ -1,4 +1,4 @@
-export default (doc, id) => {
+export default (doc, id, url) => {
   const parser = new DOMParser();
   const parsed = parser.parseFromString(doc, 'text/xml');
   const title = parsed.querySelector('title');
@@ -9,6 +9,7 @@ export default (doc, id) => {
     link: link.textContent,
     title: title.textContent,
     description: description.textContent,
+    stream: url,
   };
 
   const items = parsed.querySelectorAll('item');
