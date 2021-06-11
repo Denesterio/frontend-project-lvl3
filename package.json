@@ -42,6 +42,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
+    "i18next": "^20.3.1",
     "on-change": "^3.0.2",
     "yup": "^0.32.9"
   }

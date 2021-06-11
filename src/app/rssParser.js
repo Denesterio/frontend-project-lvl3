@@ -20,9 +20,9 @@ export default (doc, id) => {
       title: postTitle,
       description: postDescription,
       link: postLink,
-      id,
     };
   });
+  const postObject = { id, posts };
 
-  return [feed, posts];
+  return [feed, postObject];
 };
