@@ -14,9 +14,17 @@ export default (path, value, i18Inst, form) => {
     processHandler(value, i18Inst);
   } else if (path === 'feeds' || path === 'posts') {
     containers[path].innerHTML = '';
-    const title = getTitle(path, i18Inst);
-    const list = renderList(path, value);
+    const title = getTitle(i18Inst.t(path));
+    const list = renderList(path, value, i18Inst);
     containers[path].append(title);
     containers[path].append(list);
+  } else if (path === 'activePost' && value) {
+    const modalWindow = document.getElementById('modal');
+    const modalTitle = modalWindow.querySelector('.modal-title');
+    const modalBody = modalWindow.querySelector('.modal-body');
+    const readButton = modalWindow.querySelector('.full_article');
+    modalTitle.textContent = value.title;
+    modalBody.textContent = value.description;
+    readButton.href = value.link;
   }
 };

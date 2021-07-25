@@ -1,4 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -13,7 +16,11 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+        ],
       },
       {
         test: /\.js$/,
@@ -31,9 +38,9 @@ module.exports = {
     // Array of plugins to apply to build chunk
     new HtmlWebpackPlugin({
       template: `${__dirname}/src/public/index.html`,
-      inject: 'body',
+      inject: 'head',
     }),
-  ],
+  ].concat(devMode ? [] : [new MiniCssExtractPlugin()]),
   devServer: {
     contentBase: './src/public', // source of static assets
     port: 7700, // port to run dev-server

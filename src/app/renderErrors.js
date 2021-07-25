@@ -1,4 +1,4 @@
-export default (errors, form, i18Inst) => {
+export default (errors, form) => {
   const error = errors[errors.length - 1];
   const parent = form.parentElement;
   const feedback = parent.querySelector('.feedback');
@@ -6,5 +6,5 @@ export default (errors, form, i18Inst) => {
   feedback.classList.add('text-danger');
   form.rssUrl.classList.add('is-invalid');
 
-  feedback.textContent = i18Inst.t(error.name);
+  feedback.textContent = error;
 };

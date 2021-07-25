@@ -8,30 +8,38 @@ const fillFeedsList = (list, notes) => {
   });
 };
 
-const fillPostsList = (list, notes) => {
-  notes.forEach((note) => {
-    note.posts.forEach(({ title, link, description }) => {
+const fillPostsList = (list, notes, i18Inst) => {
+  notes.forEach((note, index1) => {
+    note.posts.forEach(({ title, link }, index2) => {
       const li = document.createElement('li');
-      li.classList.add('list-group-item', 'mb-2');
-      li.innerHTML = `<h6 data-bs-toggle="tooltip" data-bs-placement="bottom" title="${description}"><a class="text-decoration-none" href="${link}">${title}</a></h6>`;
+      li.classList.add('list-group-item', 'mb-2', 'd-flex', 'justify-content-between');
+      li.setAttribute('data-post-index', `${index1}:${index2}`);
+      li.innerHTML = `<a class="fw-bold col-lg text-decoration-none" href="${link}" target="_blank">${title}</a>`;
+      const modalButton = document.createElement('button');
+      modalButton.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'col-md-auto');
+      modalButton.setAttribute('data-bs-target', '#modal');
+      modalButton.setAttribute('data-bs-toggle', 'modal');
+      modalButton.setAttribute('data-post-index', `${index1}:${index2}`);
+      modalButton.textContent = i18Inst.t('show');
+      li.append(modalButton);
       list.appendChild(li);
     });
   });
 };
 
-const getTitle = (type, i18Inst) => {
+const getTitle = (title) => {
   const h3 = document.createElement('h3');
   h3.classList.add('mb-5');
-  h3.textContent = i18Inst.t(type);
+  h3.textContent = title;
   return h3;
 };
 
-const renderList = (type, notes) => {
+const renderList = (type, notes, i18Inst) => {
   const ul = document.createElement('ul');
-  ul.classList.add('list-group', 'list-group-flush');
+  ul.classList.add('list-group', 'list-group-flush', 'row');
 
   if (type === 'posts') {
-    fillPostsList(ul, notes);
+    fillPostsList(ul, notes, i18Inst);
   } else {
     fillFeedsList(ul, notes);
   }

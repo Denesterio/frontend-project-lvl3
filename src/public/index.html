@@ -7,6 +7,21 @@
     <title>RSS agregator</title>
   </head>
   <body class="d-flex flex-column min-vh-100">
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" data-backdrop="true" aria-labelledby="modal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel"></h5>
+            <button type="button" class="btn-close" data-role="closeModal" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-role="closeModal" data-bs-dismiss="modal">Закрыть</button>
+            <a type="button" rel="noopener norefferrer" role="button" target="_blank" class="btn btn-primary full_article" href="">Читать</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <section class="container-fluid bg-light bg-gradient p-5">
       <div class="row">
         <div class="col-md-10 col-lg-8 mx-auto text-secondary">
@@ -22,7 +37,6 @@
                   placeholder="rss ссылка"
                   aria-label="rss_input"
                   autofocus
-                  required
                 />
               </div>
               <div class="col">
