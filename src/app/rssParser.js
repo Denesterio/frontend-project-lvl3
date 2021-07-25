@@ -13,17 +13,20 @@ export default (doc, id, url) => {
   };
 
   const items = parsed.querySelectorAll('item');
-  const posts = [...items].map((item) => {
+  const posts = [...items].map((item, index) => {
     const postTitle = item.querySelector('title').textContent;
     const postDescription = item.querySelector('description').textContent;
     const postLink = item.querySelector('link').textContent;
     return {
+      feedId: id,
+      id: String(id) + String(index),
       title: postTitle,
       description: postDescription,
       link: postLink,
+      isRead: false,
     };
   });
-  const postObject = { id, posts };
+  // const postObject = { id, posts };
 
-  return [feed, postObject];
+  return [feed, posts];
 };

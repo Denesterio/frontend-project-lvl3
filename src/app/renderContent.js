@@ -9,21 +9,18 @@ const fillFeedsList = (list, notes) => {
 };
 
 const fillPostsList = (list, notes, i18Inst) => {
-  notes.forEach((note, index1) => {
-    note.posts.forEach(({ title, link }, index2) => {
-      const li = document.createElement('li');
-      li.classList.add('list-group-item', 'mb-2', 'd-flex', 'justify-content-between');
-      li.setAttribute('data-post-index', `${index1}:${index2}`);
-      li.innerHTML = `<a class="fw-bold col-lg text-decoration-none" href="${link}" target="_blank">${title}</a>`;
-      const modalButton = document.createElement('button');
-      modalButton.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'col-md-auto');
-      modalButton.setAttribute('data-bs-target', '#modal');
-      modalButton.setAttribute('data-bs-toggle', 'modal');
-      modalButton.setAttribute('data-post-index', `${index1}:${index2}`);
-      modalButton.textContent = i18Inst.t('show');
-      li.append(modalButton);
-      list.appendChild(li);
-    });
+  notes.forEach(({ title, link, id }) => {
+    const li = document.createElement('li');
+    li.classList.add('list-group-item', 'mb-2', 'd-flex', 'justify-content-between');
+    li.innerHTML = `<a class="fw-bold col-lg text-decoration-none" href="${link}" target="_blank">${title}</a>`;
+    const modalButton = document.createElement('button');
+    modalButton.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'col-md-auto');
+    modalButton.setAttribute('data-bs-target', '#modal');
+    modalButton.setAttribute('data-bs-toggle', 'modal');
+    modalButton.setAttribute('data-post-index', `${id}`);
+    modalButton.textContent = i18Inst.t('show');
+    li.append(modalButton);
+    list.appendChild(li);
   });
 };
 
