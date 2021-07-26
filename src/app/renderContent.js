@@ -3,8 +3,21 @@ const fillFeedsList = (list, notes) => {
   notes.forEach(({ title, link, description }) => {
     const li = document.createElement('li');
     li.classList.add('mb-3');
-    li.innerHTML = `<h4><a class="text-decoration-none" href="${link}">${title}</a></h4><p>${description}</p>`;
-    list.appendChild(li);
+
+    const h4 = document.createElement('h4');
+    li.append(h4);
+
+    const a = document.createElement('a');
+    a.classList.add('text-decoration-none');
+    a.href = link;
+    a.textContent = title;
+    a.target = '_blank';
+    h4.append(a);
+
+    const p = document.createElement('p');
+    p.textContent = description;
+    li.append(p);
+    list.append(li);
   });
 };
 
@@ -12,7 +25,14 @@ const fillPostsList = (list, notes, i18Inst) => {
   notes.forEach(({ title, link, id }) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'mb-2', 'd-flex', 'justify-content-between');
-    li.innerHTML = `<a class="fw-bold col-lg text-decoration-none" href="${link}" target="_blank">${title}</a>`;
+
+    const a = document.createElement('a');
+    a.classList.add('fw-bold', 'col-lg', 'text-decoration-none');
+    a.href = link;
+    a.target = '_blank';
+    a.textContent = title;
+    li.append(a);
+
     const modalButton = document.createElement('button');
     modalButton.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'col-md-auto');
     modalButton.setAttribute('data-bs-target', '#modal');

@@ -26,7 +26,6 @@ export default (doc, id, url) => {
       isRead: false,
     };
   });
-  // const postObject = { id, posts };
 
   return [feed, posts];
 };

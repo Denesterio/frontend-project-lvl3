@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
-import isEqual from 'lodash/isEqual';
-
 import rssParse from './rssParser.js';
 import 'bootstrap/js/dist/modal';
 
@@ -33,19 +31,21 @@ export default (sWatcher, url, i18Inst) => {
         sWatcher.activePost = activePost;
       });
 
+      const isPostsEqual = (newPosts, oldPosts) => newPosts[0].title === oldPosts[0].title;
+      const feed = sWatcher.feeds.find((fd) => fd.id === id);
+
       setTimeout(function updateList() {
-        const feed = sWatcher.feeds[0];
         const currentUri = encodeURIComponent(feed.stream);
         axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${currentUri}`).then((response) => {
           const updatedData = response.data;
           try {
             const [, newPosts] = rssParse(updatedData.contents, feed.id);
             const currentPosts = sWatcher.posts.filter((p) => p.feedId === feed.id);
-            if (!isEqual(currentPosts, newPosts)) {
+            if (!isPostsEqual(newPosts, currentPosts)) {
               const nonChangedPosts = sWatcher.posts.filter((post) => post.feedId !== feed.id);
               sWatcher.posts = [newPosts, ...nonChangedPosts];
             }
-            // setTimeout(updateList, 5000, sWatcher);
+            setTimeout(updateList, 5000, sWatcher);
           } catch (error) {
             setTimeout(updateList, 5000, sWatcher);
           }
