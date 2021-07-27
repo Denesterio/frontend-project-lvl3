@@ -1,13 +1,22 @@
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
 import rssParse from './rssParser.js';
 import 'bootstrap/js/dist/modal';
 
-const NEXT_REQUEST_TIMEOUT = 5000;
+const NEXT_REQUEST_TIMEOUT = 15000;
+
+const getUrl = (url, path = 'get') => {
+  const requestUrl = new URL('https://hexlet-allorigins.herokuapp.com/');
+  requestUrl.pathname = path;
+  requestUrl.searchParams.append('disableCache', true);
+  requestUrl.searchParams.append('url', url);
+  return requestUrl;
+};
+
 export default (sWatcher, url, i18Inst) => {
-  const uri = encodeURIComponent(url);
   axios
-    .get(`https://hexlet-allorigins.herokuapp.com/get?url=${uri}`)
+    .get(getUrl(url))
     .then(({ data }) => {
       const id = sWatcher.feeds.length + 1;
       try {
@@ -38,15 +47,14 @@ export default (sWatcher, url, i18Inst) => {
       const feed = sWatcher.feeds.find((fd) => fd.id === id);
 
       setTimeout(function updateList() {
-        const currentUri = encodeURIComponent(feed.stream);
-        axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${currentUri}`).then((response) => {
+        axios.get(getUrl(feed.stream)).then((response) => {
           const updatedData = response.data;
           try {
             const [, newPosts] = rssParse(updatedData.contents, feed.id, feed.stream);
             const currentPosts = sWatcher.posts.filter((p) => p.feedId === feed.id);
             if (!isPostsEqual(newPosts, currentPosts)) {
               const nonChangedPosts = sWatcher.posts.filter((post) => post.feedId !== feed.id);
-              sWatcher.posts = [newPosts, ...nonChangedPosts];
+              sWatcher.posts = [...newPosts, ...nonChangedPosts];
             }
             setTimeout(updateList, NEXT_REQUEST_TIMEOUT, sWatcher);
           } catch (error) {

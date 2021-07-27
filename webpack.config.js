@@ -16,10 +16,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.js$/,
@@ -36,7 +33,7 @@ module.exports = {
   plugins: [
     // Array of plugins to apply to build chunk
     new HtmlWebpackPlugin({
-      template: `${__dirname}/src/public/index.html`,
+      template: `${__dirname}/index.html`,
       inject: 'head',
     }),
   ].concat(devMode ? [] : [new MiniCssExtractPlugin()]),
