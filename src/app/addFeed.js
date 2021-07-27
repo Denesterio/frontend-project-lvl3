@@ -8,7 +8,7 @@ export default (sWatcher, url, i18Inst) => {
   axios
     .get(`https://hexlet-allorigins.herokuapp.com/get?url=${uri}`)
     .then(({ data }) => {
-      const id = sWatcher.feeds.length;
+      const id = sWatcher.feeds.length + 1;
       try {
         const [feed, posts] = rssParse(data.contents, id, url);
         sWatcher.feeds = [feed, ...sWatcher.feeds];
