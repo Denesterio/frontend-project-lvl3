@@ -3,6 +3,7 @@ import axios from 'axios';
 import rssParse from './rssParser.js';
 import 'bootstrap/js/dist/modal';
 
+const NEXT_REQUEST_TIMEOUT = 5000;
 export default (sWatcher, url, i18Inst) => {
   const uri = encodeURIComponent(url);
   axios
@@ -33,7 +34,7 @@ export default (sWatcher, url, i18Inst) => {
         }
       });
 
-      const isPostsEqual = (newPosts, oldPosts) => newPosts[0].title === oldPosts[0].title;
+      const isPostsEqual = (newPosts, oldPosts) => newPosts[0].pubDate === oldPosts[0].pubDate;
       const feed = sWatcher.feeds.find((fd) => fd.id === id);
 
       setTimeout(function updateList() {
@@ -41,18 +42,18 @@ export default (sWatcher, url, i18Inst) => {
         axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${currentUri}`).then((response) => {
           const updatedData = response.data;
           try {
-            const [, newPosts] = rssParse(updatedData.contents, feed.id);
+            const [, newPosts] = rssParse(updatedData.contents, feed.id, feed.stream);
             const currentPosts = sWatcher.posts.filter((p) => p.feedId === feed.id);
             if (!isPostsEqual(newPosts, currentPosts)) {
               const nonChangedPosts = sWatcher.posts.filter((post) => post.feedId !== feed.id);
               sWatcher.posts = [newPosts, ...nonChangedPosts];
             }
-            setTimeout(updateList, 5000, sWatcher);
+            setTimeout(updateList, NEXT_REQUEST_TIMEOUT, sWatcher);
           } catch (error) {
-            setTimeout(updateList, 5000, sWatcher);
+            setTimeout(updateList, NEXT_REQUEST_TIMEOUT, sWatcher);
           }
         });
-      }, 5000);
+      }, NEXT_REQUEST_TIMEOUT);
     })
     .catch(() => {
       sWatcher.rssForm.errors.push(i18Inst.t('ConnectionError'));

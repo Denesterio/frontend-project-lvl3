@@ -1,6 +1,6 @@
-export default (doc, id, url) => {
+export default (dataContent, id, url) => {
   const parser = new DOMParser();
-  const parsedRSS = parser.parseFromString(doc, 'text/xml');
+  const parsedRSS = parser.parseFromString(dataContent, 'text/xml');
   const channel = parsedRSS.querySelector('channel');
   const elements = [...channel.children];
   const title = elements.find((elem) => elem.tagName === 'title').textContent;
@@ -18,12 +18,14 @@ export default (doc, id, url) => {
     const postTitle = item.querySelector('title').textContent;
     const postDescription = item.querySelector('description')?.textContent;
     const postLink = item.querySelector('link').textContent;
+    const pubDate = item.querySelector('pubDate').textContent;
     return {
       feedId: id,
       id: String(id) + String(index),
       title: postTitle,
       description: postDescription ?? '',
       link: postLink,
+      pubDate,
     };
   });
 
