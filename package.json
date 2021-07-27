@@ -35,8 +35,6 @@
     "jest": "^27.0.4",
     "jest-cli": "^27.0.4",
     "mini-css-extract-plugin": "^1.6.0",
-    "postcss-loader": "^6.1.0",
-    "postcss-preset-env": "^6.7.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0",

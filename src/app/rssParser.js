@@ -23,7 +23,6 @@ export default (doc, id, url) => {
       title: postTitle,
       description: postDescription,
       link: postLink,
-      isRead: false,
     };
   });
 

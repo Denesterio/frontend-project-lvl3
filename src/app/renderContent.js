@@ -28,6 +28,7 @@ const fillPostsList = (list, notes, i18Inst) => {
 
     const a = document.createElement('a');
     a.classList.add('fw-bold', 'col-lg', 'text-decoration-none');
+    a.setAttribute('data-post-index', `${id}`);
     a.href = link;
     a.target = '_blank';
     a.textContent = title;

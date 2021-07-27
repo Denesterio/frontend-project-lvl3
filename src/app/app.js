@@ -27,13 +27,20 @@ export default (i18nInstance) => {
     feeds: [],
     posts: [],
     activePost: null,
-    readPosts: [],
+    readPostsLinks: [],
   };
 
   const form = document.querySelector('.rss_form');
 
   const stateWatcher = onChange(state, (path, value) => {
     view(path, value, i18nInstance, form);
+  });
+
+  const closeModalButton = document.querySelector('[data-role="closeModal"]');
+  const readModalButton = document.querySelector('.full_article');
+  const eventCloseModal = new Event('click');
+  readModalButton.addEventListener('click', () => {
+    closeModalButton.dispatchEvent(eventCloseModal);
   });
 
   form.addEventListener('submit', (event) => {

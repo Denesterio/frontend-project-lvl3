@@ -24,11 +24,13 @@ export default (sWatcher, url, i18Inst) => {
 
       const postsContainer = document.querySelector('.posts');
       postsContainer.addEventListener('click', (evnt) => {
-        if (evnt.target.tagName !== 'BUTTON') return;
+        if (evnt.target.tagName !== 'BUTTON' && evnt.target.tagName !== 'A') return;
         const index = evnt.target.dataset.postIndex;
         const activePost = sWatcher.posts.find((p) => p.id === index);
-        activePost.isRead = true;
-        sWatcher.activePost = activePost;
+        sWatcher.readPostsLinks.push(activePost.link);
+        if (evnt.target.tagName === 'BUTTON') {
+          sWatcher.activePost = activePost;
+        }
       });
 
       const isPostsEqual = (newPosts, oldPosts) => newPosts[0].title === oldPosts[0].title;

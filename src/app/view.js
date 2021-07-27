@@ -26,5 +26,11 @@ export default (path, value, i18Inst, form) => {
     modalTitle.textContent = value.title;
     modalBody.textContent = value.description;
     readButton.href = value.link;
+  } else if (path === 'readPostsLinks') {
+    value.forEach((link) => {
+      const a = document.querySelector(`a[href="${link}"]`);
+      a.classList.remove('fw-bold');
+      a.classList.add('fw-normal');
+    });
   }
 };
