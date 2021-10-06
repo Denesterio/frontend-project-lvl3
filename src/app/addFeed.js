@@ -1,5 +1,3 @@
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable no-param-reassign */
 import axios from 'axios';
 import rssParse from './rssParser.js';
 import 'bootstrap/js/dist/modal';

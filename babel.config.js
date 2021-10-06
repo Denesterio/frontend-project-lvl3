@@ -7,7 +7,6 @@ module.exports = {
           node: 'current',
         },
       },
-      // '@babel/plugin-transform-modules-commonjs',
     ],
   ],
 };

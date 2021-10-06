@@ -1,4 +1,4 @@
-name: GitHub Actions Lint & Test
+name: GitHub Actions Lint
 on: [push]
 jobs:
   build:

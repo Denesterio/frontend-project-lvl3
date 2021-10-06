@@ -3,6 +3,3 @@
 dist
 assets
 .vercel
-__tests__
-__fixtures__
-test-dist
