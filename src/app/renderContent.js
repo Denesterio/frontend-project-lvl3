@@ -29,6 +29,7 @@ const fillPostsList = (list, notes, i18Inst) => {
     const a = document.createElement('a');
     a.classList.add('fw-bold', 'col-lg', 'text-decoration-none');
     a.setAttribute('data-post-index', `${id}`);
+    a.setAttribute('role', 'link');
     a.href = link;
     a.target = '_blank';
     a.textContent = title;
@@ -39,6 +40,7 @@ const fillPostsList = (list, notes, i18Inst) => {
     modalButton.setAttribute('data-bs-target', '#modal');
     modalButton.setAttribute('data-bs-toggle', 'modal');
     modalButton.setAttribute('data-post-index', `${id}`);
+    modalButton.setAttribute('role', 'button');
     modalButton.textContent = i18Inst.t('show');
     li.append(modalButton);
     list.appendChild(li);

@@ -1,6 +1,9 @@
 const createButton = () => {
   const button = document.createElement('button');
   button.setAttribute('type', 'submit');
+  button.setAttribute('name', 'add');
+  button.setAttribute('aria-label', 'add');
+  button.setAttribute('role', 'button');
   button.classList.add('btn', 'btn-outline-secondary', 'btn-lg', 'px-sm-4', 'fw-bold');
   button.textContent = 'Добавить';
   return button;
