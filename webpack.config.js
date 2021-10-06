@@ -3,11 +3,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
+const entry = `${__dirname}/src/app/index.js`;
+const outputPath = `${__dirname}/dist/`;
+
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: './src/app/index.js',
+  entry,
   output: {
-    path: `${__dirname}/dist`, // Folder to store generated bundle
+    path: outputPath, // Folder to store generated bundle
     filename: 'bundle.js', // Name of generated bundle after build
     publicPath: '/', // public URL of the output directory when referenced in a browser
   },
@@ -16,7 +19,11 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.js$/,

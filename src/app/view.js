@@ -9,7 +9,7 @@ export default (path, value, i18Inst, form) => {
   };
 
   if (path === 'rssForm.errors' && value.length > 0) {
-    renderError(value, form, i18Inst);
+    renderError(value, form);
   } else if (path === 'rssForm.state') {
     processHandler(value, i18Inst);
   } else if (path === 'feeds' || path === 'posts') {

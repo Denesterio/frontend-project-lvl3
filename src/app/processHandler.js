@@ -22,6 +22,7 @@ export default (processState, i18Inst) => {
     input.focus();
     if (processState === 'finished') {
       input.value = '';
+      input.setAttribute('aria-invalid', false);
       const feedback = document.querySelector('.feedback');
       feedback.classList.remove('text-danger');
       feedback.classList.add('text-success');

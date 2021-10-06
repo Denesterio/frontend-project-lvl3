@@ -1,5 +1,4 @@
-export default (dataContent, id, url) => {
-  const parser = new DOMParser();
+export default (parser, dataContent, id, url) => {
   const parsedRSS = parser.parseFromString(dataContent, 'text/xml');
   const channel = parsedRSS.querySelector('channel');
   const elements = [...channel.children];
@@ -14,20 +13,22 @@ export default (dataContent, id, url) => {
     stream: url,
   };
 
-  const posts = elements.filter((elem) => elem.tagName === 'item').map((item, index) => {
-    const postTitle = item.querySelector('title').textContent;
-    const postDescription = item.querySelector('description')?.textContent;
-    const postLink = item.querySelector('link').textContent;
-    const pubDate = item.querySelector('pubDate').textContent;
-    return {
-      feedId: id,
-      id: String(id) + String(index),
-      title: postTitle,
-      description: postDescription ?? '',
-      link: postLink,
-      pubDate,
-    };
-  });
+  const posts = elements
+    .filter((elem) => elem.tagName === 'item')
+    .map((item, index) => {
+      const postTitle = item.querySelector('title').textContent;
+      const postDescription = item.querySelector('description')?.textContent;
+      const postLink = item.querySelector('link').textContent;
+      const pubDate = item.querySelector('pubDate').textContent;
+      return {
+        feedId: id,
+        id: String(id) + String(index),
+        title: postTitle,
+        description: postDescription ?? '',
+        link: postLink,
+        pubDate,
+      };
+    });
 
   return [feed, posts];
 };

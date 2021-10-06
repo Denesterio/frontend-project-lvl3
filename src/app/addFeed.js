@@ -4,7 +4,7 @@ import axios from 'axios';
 import rssParse from './rssParser.js';
 import 'bootstrap/js/dist/modal';
 
-const NEXT_REQUEST_TIMEOUT = 15000;
+const NEXT_REQUEST_TIMEOUT = 5000;
 
 const getUrl = (url, path = 'get') => {
   const requestUrl = new URL('https://hexlet-allorigins.herokuapp.com/');
@@ -14,13 +14,15 @@ const getUrl = (url, path = 'get') => {
   return requestUrl;
 };
 
+const isPostsEqual = (newPosts, oldPosts) => newPosts[0].pubDate === oldPosts[0].pubDate;
+
 export default (sWatcher, url, i18Inst) => {
   axios
     .get(getUrl(url))
     .then(({ data }) => {
       const id = sWatcher.feeds.length + 1;
       try {
-        const [feed, posts] = rssParse(data.contents, id, url);
+        const [feed, posts] = rssParse(new DOMParser(), data.contents, id, url);
         sWatcher.feeds = [feed, ...sWatcher.feeds];
         sWatcher.posts = [...posts, ...sWatcher.posts];
       } catch (error) {
@@ -43,14 +45,13 @@ export default (sWatcher, url, i18Inst) => {
         }
       });
 
-      const isPostsEqual = (newPosts, oldPosts) => newPosts[0].pubDate === oldPosts[0].pubDate;
       const feed = sWatcher.feeds.find((fd) => fd.id === id);
 
       setTimeout(function updateList() {
         axios.get(getUrl(feed.stream)).then((response) => {
-          const updatedData = response.data;
           try {
-            const [, newPosts] = rssParse(updatedData.contents, feed.id, feed.stream);
+            const content = response.data.contents;
+            const [, newPosts] = rssParse(new DOMParser(), content, feed.id, feed.stream);
             const currentPosts = sWatcher.posts.filter((p) => p.feedId === feed.id);
             if (!isPostsEqual(newPosts, currentPosts)) {
               const nonChangedPosts = sWatcher.posts.filter((post) => post.feedId !== feed.id);
