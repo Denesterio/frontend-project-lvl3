@@ -33,6 +33,7 @@ export default (sWatcher, url, i18Inst) => {
       sWatcher.rssForm.errors = [];
 
       const postsContainer = document.querySelector('.posts');
+
       postsContainer.addEventListener('click', (evnt) => {
         if (evnt.target.tagName !== 'BUTTON' && evnt.target.tagName !== 'A') return;
         const index = evnt.target.dataset.postIndex;
@@ -40,6 +41,12 @@ export default (sWatcher, url, i18Inst) => {
         sWatcher.readPostsLinks.push(activePost.link);
         if (evnt.target.tagName === 'BUTTON') {
           sWatcher.activePost = activePost;
+          const closeModalButton = document.querySelector('[data-role="closeModal"]');
+          const readModalButton = document.getElementById('readArticleModalLink');
+          const eventCloseModal = new Event('click');
+          readModalButton.addEventListener('click', () => {
+            closeModalButton.dispatchEvent(eventCloseModal);
+          });
         }
       });
 

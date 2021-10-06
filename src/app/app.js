@@ -36,13 +36,6 @@ export default (i18nInstance) => {
     view(path, value, i18nInstance, form);
   });
 
-  const closeModalButton = document.querySelector('[data-role="closeModal"]');
-  const readModalButton = document.getElementById('readArticleModalLink');
-  const eventCloseModal = new Event('click');
-  readModalButton.addEventListener('click', () => {
-    closeModalButton.dispatchEvent(eventCloseModal);
-  });
-
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     stateWatcher.rssForm.state = 'sending';
