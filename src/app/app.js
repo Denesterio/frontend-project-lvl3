@@ -37,7 +37,7 @@ export default (i18nInstance) => {
   });
 
   const closeModalButton = document.querySelector('[data-role="closeModal"]');
-  const readModalButton = document.querySelector('.full_article');
+  const readModalButton = document.getElementById('readArticleModalLink');
   const eventCloseModal = new Event('click');
   readModalButton.addEventListener('click', () => {
     closeModalButton.dispatchEvent(eventCloseModal);
