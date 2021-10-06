@@ -4,7 +4,7 @@ import app from './app.js';
 
 export default () => {
   const i18nInstance = i18next.createInstance();
-  i18nInstance
+  return i18nInstance
     .init({
       lng: 'ru',
       debug: false,
