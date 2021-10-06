@@ -48,7 +48,7 @@ export default (i18nInstance) => {
     stateWatcher.rssForm.state = 'sending';
 
     const formData = new FormData(event.target);
-    const url = formData.get('rssUrl').trim();
+    const url = formData.get('url').trim();
 
     const streams = stateWatcher.feeds.map((feed) => feed.stream);
     const schema = yup.string().required().url().notOneOf(streams);
