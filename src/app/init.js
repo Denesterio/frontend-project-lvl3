@@ -4,13 +4,17 @@ import app from './app.js';
 
 export default () => {
   const i18nInstance = i18next.createInstance();
-  return i18nInstance
-    .init({
-      lng: 'ru',
-      debug: false,
-      resources,
-    })
-    .then(() => {
-      app(i18nInstance);
-    });
+  // prettier-ignore
+  return (
+    i18nInstance
+      .init({
+        lng: 'ru',
+        debug: false,
+        resources,
+      })
+      .then(() => new Promise((resolve) => {
+        app(i18nInstance);
+        resolve();
+      }))
+  );
 };
