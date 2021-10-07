@@ -4,8 +4,9 @@ export default (errors, form) => {
   const feedback = parent.querySelector('.feedback');
   feedback.classList.remove('text-success');
   feedback.classList.add('text-danger');
-  form.url.classList.add('is-invalid');
-  form.url.setAttribute('aria-invalid', true);
+  console.log(form.elements.url);
+  form.elements.url.classList.add('is-invalid');
+  form.elements.url.setAttribute('aria-invalid', true);
 
   feedback.textContent = error;
 };
