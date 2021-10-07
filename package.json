@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "0.0.1",
   "description": "rss agregator",
-  "main": "src/app/index.js",
+  "main": "src/app/init.js",
   "scripts": {
     "test": "npx jest --bail",
     "start": "webpack serve --history-api-fallback --inline --progress"
