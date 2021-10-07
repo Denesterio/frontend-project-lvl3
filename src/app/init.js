@@ -16,10 +16,15 @@ const initApp = () => {
   );
 };
 
-export default () => {
+// prettier-ignore
+export default () => new Promise((resolve) => {
   if (document.readyState === 'complete' || document.readyState === 'loaded') {
     initApp();
+    resolve();
   } else {
-    document.addEventListener('DOMContentLoaded', initApp);
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+      resolve();
+    });
   }
-};
+});
