@@ -3,7 +3,8 @@ import onChange from 'on-change';
 import view from './view.js';
 import addFeed from './addFeed.js';
 
-export default (i18nInstance) => {
+// prettier-ignore
+export default (i18nInstance) => new Promise((resolve) => {
   yup.setLocale({
     mixed: {
       default: i18nInstance.t('ValidationError'),
@@ -14,7 +15,6 @@ export default (i18nInstance) => {
       url: i18nInstance.t('urlError'),
     },
   });
-
   const state = {
     rssForm: {
       // 'filling' - ожидание, заполнение
@@ -29,20 +29,15 @@ export default (i18nInstance) => {
     activePost: null,
     readPostsLinks: [],
   };
-
   const form = document.querySelector('.rss_form');
-
   const stateWatcher = onChange(state, (path, value) => {
     view(path, value, i18nInstance, form);
   });
-
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     stateWatcher.rssForm.state = 'sending';
-
     const formData = new FormData(event.target);
     const url = formData.get('url').trim();
-
     const streams = stateWatcher.feeds.map((feed) => feed.stream);
     const schema = yup.string().required().url().notOneOf(streams);
     schema
@@ -58,4 +53,5 @@ export default (i18nInstance) => {
         stateWatcher.rssForm.state = 'failed';
       });
   });
-};
+  resolve();
+});

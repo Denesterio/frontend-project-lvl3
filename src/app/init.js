@@ -12,9 +12,6 @@ export default () => {
         debug: false,
         resources,
       })
-      .then(() => new Promise((resolve) => {
-        app(i18nInstance);
-        resolve();
-      }))
+      .then(() => app(i18nInstance))
   );
 };
