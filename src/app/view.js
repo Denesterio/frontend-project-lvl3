@@ -1,6 +1,6 @@
 import renderError from './renderErrors.js';
 import processHandler from './processHandler.js';
-import { renderList, getTitle } from './renderContent.js';
+import { getList, getTitle } from './renderContent.js';
 
 export default (path, value, i18Inst, form) => {
   const containers = {
@@ -15,9 +15,9 @@ export default (path, value, i18Inst, form) => {
   } else if (path === 'feeds' || path === 'posts') {
     containers[path].innerHTML = '';
     const title = getTitle(i18Inst.t(path));
-    const list = renderList(path, value, i18Inst);
+    const articlesView = getList(path, value, i18Inst);
     containers[path].append(title);
-    containers[path].append(list);
+    containers[path].append(articlesView);
   } else if (path === 'activePost' && value) {
     const modalWindow = document.getElementById('modal');
     const modalTitle = modalWindow.querySelector('.modal-title');

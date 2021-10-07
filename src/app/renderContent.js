@@ -54,7 +54,7 @@ const getTitle = (title) => {
   return h3;
 };
 
-const renderList = (type, notes, i18Inst) => {
+const getList = (type, notes, i18Inst) => {
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'list-group-flush', 'row');
 
@@ -67,4 +67,4 @@ const renderList = (type, notes, i18Inst) => {
   return ul;
 };
 
-export { renderList, getTitle };
+export { getList, getTitle };
