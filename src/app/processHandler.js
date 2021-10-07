@@ -1,27 +1,22 @@
-const createButton = () => {
-  const button = document.createElement('button');
-  button.setAttribute('type', 'submit');
-  button.setAttribute('name', 'add');
-  button.setAttribute('aria-label', 'add');
-  button.setAttribute('role', 'button');
-  button.classList.add('btn', 'btn-outline-secondary', 'btn-lg', 'px-sm-4', 'fw-bold');
-  button.textContent = 'Добавить';
-  return button;
-};
+// const createSpinner = () => {
+//   const spinnerSpan = document.createElement('span');
+//   spinnerSpan.classList.add('spinner-border', 'text-secondary', 'm-2');
+//   spinnerSpan.setAttribute('role', 'status');
+//   spinnerSpan.innerHTML = '<span class="visually-hidden">Загрузка...</span>';
+//   return spinnerSpan;
+// };
 
 export default (processState, i18Inst) => {
   const input = document.forms.rssForm.querySelector('input');
-  const button = document.forms.rssForm.querySelector('button') || createButton();
+  const button = document.forms.rssForm.querySelector('button');
   if (processState === 'sending') {
     input.classList.remove('is-invalid');
-    const spinnerDiv = document.createElement('div');
-    spinnerDiv.classList.add('spinner-border', 'text-secondary', 'm-2');
-    spinnerDiv.setAttribute('role', 'status');
-    spinnerDiv.innerHTML = '<span class="visually-hidden">Загрузка...</span>';
-    button.replaceWith(spinnerDiv);
+    input.setAttribute('readonly', 'true');
+    button.disabled = true;
   } else {
-    const spinner = document.forms.rssForm.querySelector('.spinner-border');
-    spinner.replaceWith(button);
+    button.disabled = false;
+    // button.innerHTML = 'Добавить';
+    input.removeAttribute('readonly');
     input.focus();
     if (processState === 'finished') {
       input.value = '';
