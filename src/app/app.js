@@ -15,6 +15,7 @@ export default (i18nInstance) => new Promise((resolve) => {
       url: i18nInstance.t('urlError'),
     },
   });
+
   const state = {
     rssForm: {
       // 'filling' - ожидание, заполнение
@@ -29,10 +30,12 @@ export default (i18nInstance) => new Promise((resolve) => {
     activePost: null,
     readPostsLinks: [],
   };
+
   const form = document.querySelector('.rss_form');
   const stateWatcher = onChange(state, (path, value) => {
     view(path, value, i18nInstance, form);
   });
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     stateWatcher.rssForm.state = 'sending';
@@ -53,5 +56,6 @@ export default (i18nInstance) => new Promise((resolve) => {
         stateWatcher.rssForm.state = 'failed';
       });
   });
+
   resolve();
 });

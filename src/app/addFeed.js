@@ -4,8 +4,10 @@ import 'bootstrap/js/dist/modal';
 
 const NEXT_REQUEST_TIMEOUT = 5000;
 
+const PROXY = 'https://hexlet-allorigins.herokuapp.com/';
+
 const getUrl = (url, path = 'get') => {
-  const requestUrl = new URL('https://hexlet-allorigins.herokuapp.com/');
+  const requestUrl = new URL(PROXY);
   requestUrl.pathname = path;
   requestUrl.searchParams.append('disableCache', true);
   requestUrl.searchParams.append('url', url);

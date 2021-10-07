@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import resources from '../locales';
 import app from './app.js';
 
-export default () => {
+const initApp = () => {
   const i18nInstance = i18next.createInstance();
   // prettier-ignore
   return (
@@ -14,4 +14,12 @@ export default () => {
       })
       .then(() => app(i18nInstance))
   );
+};
+
+export default () => {
+  if (document.readyState === 'complete' || document.readyState === 'loaded') {
+    initApp();
+  } else {
+    document.addEventListener('DOMContentLoaded', initApp);
+  }
 };
